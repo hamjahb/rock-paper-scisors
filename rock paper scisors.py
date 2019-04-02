@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# v 0.3
+# v 0.4
 """This program plays a game of Rock, Paper, Scissors between two Players,
 and reports both Player's scores each round."""
 
@@ -18,10 +18,19 @@ class Player:
     def learn(self, my_move, their_move):
         pass
 
-class random_player(Player):
+class Random_Player(Player):
     def move(self):
         return random.choice(moves)
 
+class Human_Player(Player):
+    def move(self):
+        self.hand = input("What will you play? Rock, Paper or Scissors?\n").lower()
+        if self.hand == "rock" or self.hand == "paper" or self.hand == "scissors":
+            return self.hand
+        else:
+            print("Not a valid input")
+            self.move()
+            
 
 class Game:
     def __init__(self, p1, p2):
@@ -37,13 +46,14 @@ class Game:
         self.p1.learn(move1, move2)
         self.p2.learn(move2, move1)
         self.beats(move1, move2)
+        
 
     def play_game(self):
         print("Game start!")
         for round in range(3):
             print(f"Round {round}:")
             self.play_round()
-            print(f"Player 1 has {self.p1.score} points, Player 2 has {self.p2.score} points.")
+            print(f"p1 {self.p1.score}, p2 {self.p2.score}")
         print("Game over!")
 
     def beats(self, one, two):
@@ -51,22 +61,22 @@ class Game:
         two = self.p2.move()
         if one == 'rock' and two == 'scissors':
             self.p1.score += 1
-            print("Player 1 wins this round")
+            print("Player 1 wins this round \n")
         elif one == 'scissors' and two == 'paper':
             self.p1.score += 1
-            print("Player 1 wins this round")
+            print("Player 1 wins this round \n")
         elif one == 'paper' and two == 'rock':
             self.p1.score += 1
-            print("Player 1 wins this round")
+            print("Player 1 wins this round\n")
         elif one == two:
-            print("This round is a tie no winner")
+            print("This round is a tie no winner \n")
         else:
             self.p2.score += 1
-            print("Player 2 wins this Round")
+            print("Player 2 wins this Round \n")
 
 
 
 
 if __name__ == '__main__':
-    game = Game(random_player(), random_player())
+    game = Game(Human_Player(), Random_Player())
     game.play_game()

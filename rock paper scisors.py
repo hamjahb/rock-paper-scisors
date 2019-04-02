@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 # v 0.2
-import random
-
 """This program plays a game of Rock, Paper, Scissors between two Players,
 and reports both Player's scores each round."""
 
@@ -10,6 +8,8 @@ moves = ['rock', 'paper', 'scissors']
 """The Player class is the parent class for all of the Players
 in this game"""
 
+
+import random
 
 class Player:
     def move(self):
@@ -21,7 +21,6 @@ class Player:
 class random_player(Player):
     def move(self):
         return random.choice(moves)
-        
 
 
 def beats(one, two):

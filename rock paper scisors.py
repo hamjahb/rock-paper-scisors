@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# v 0.4
+# v 0.6
 """This program plays a game of Rock, Paper, Scissors between two Players,
 and reports both Player's scores each round."""
 
@@ -12,11 +12,16 @@ in this game"""
 import random
 
 class Player:
+    def __init__(self):
+        self.my_previous_move = random.choice(moves)
+        self.their_previous_move = random.choice(moves)
+    
     def move(self):
         return 'rock'
 
     def learn(self, my_move, their_move):
-        pass
+        self.my_previous_move = my_move
+        self.their_previous_move = their_move
 
 class Random_Player(Player):
     def move(self):
@@ -30,6 +35,26 @@ class Human_Player(Player):
         else:
             print("Not a valid move")
             self.move()
+
+class Reflect_Player(Player):
+    #player that playes Your last move next rund
+       
+    def move(self):
+        print(self.their_previous_move)
+        return self.their_previous_move
+
+
+class Cycle_Player(Player):
+    #player that cycles based on last play
+    def learn(self, my_move, their_move):
+        pass
+    def move(self):
+        pass
+    
+
+        
+
+
             
 
 class Game:
@@ -46,7 +71,7 @@ class Game:
         self.beats(move1, move2)
         self.p1.learn(move1, move2)
         self.p2.learn(move2, move1)
-        return (move1, move2)
+        
         
 
     def play_game(self):
@@ -73,19 +98,19 @@ class Game:
                 self.p1.score += 1
                 print("Player 1 wins this round \n")
             else:
-                self.p2.score += 2
+                self.p2.score += 1
                 print("Player 2 wins this round \n")
         elif move1 == 'paper':
             if move2 == 'rock':
                 self.p1.score += 1
                 print("Player 1 wins this round\n")
             else:
-                self.p2.score += 2
+                self.p2.score += 1
                 print("Player 2 wins this round \n")
 
 
 
 
 if __name__ == '__main__':
-    game = Game(Human_Player(), Random_Player())
+    game = Game(Random_Player(), Reflect_Player())
     game.play_game()

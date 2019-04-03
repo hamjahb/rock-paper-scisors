@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# v 0.6
+# v 0.8
 """This program plays a game of Rock, Paper, Scissors between two Players,
 and reports both Player's scores each round."""
 

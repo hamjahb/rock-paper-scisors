@@ -37,25 +37,20 @@ class Human_Player(Player):
             self.move()
 
 class Reflect_Player(Player):
-    #player that playes Your last move next rund
-       
     def move(self):
-        print(self.their_previous_move)
         return self.their_previous_move
 
 
 class Cycle_Player(Player):
     #player that cycles based on last play
-    def learn(self, my_move, their_move):
-        pass
     def move(self):
-        pass
-    
-
         
-
-
-            
+        n = moves.index(self.my_previous_move)
+        if n == 2:
+            return moves[0]
+        else:
+            return moves[n+1]
+    
 
 class Game:
     def __init__(self, p1, p2):
@@ -72,7 +67,26 @@ class Game:
         self.p1.learn(move1, move2)
         self.p2.learn(move2, move1)
         
-        
+    def post_game(self):
+        print(f"Final score P1: {self.p1.score}, P2: {self.p2.score}")
+        if self.p1.score > self.p2.score:
+            print(f"Player 1 Wins with {self.p1.score} points!\n")
+        elif self.p1.score < self.p2.score:
+            print(f"Player 2 Wins with {self.p2.score} points!\n")
+        elif self.p1.score == self.p2.score:
+            print("TIE BREAKER ROUND!!")
+            self.play_round()
+            self.post_game()
+
+    def play_again(self):
+        another = input("play another 3 rounds or quit? quit/play?\n").lower()
+        if another == "play":
+            self.play_game()
+        elif another == "quit":
+            print("Game over!")        
+        else:
+            print("invalid command")
+            self.play_again
 
     def play_game(self):
         print("Game start!")
@@ -80,8 +94,8 @@ class Game:
             print(f"P1: {self.p1.score}, P2: {self.p2.score}")
             print(f"Round {round}:")
             self.play_round()
-        print(f"Final score P1: {self.p1.score}, P2: {self.p2.score}")
-        print("Game over!")
+        self.post_game()
+        self.play_again()
 
     def beats(self, move1, move2):
         if move1 == move2:
@@ -112,5 +126,5 @@ class Game:
 
 
 if __name__ == '__main__':
-    game = Game(Random_Player(), Reflect_Player())
+    game = Game(Random_Player(), Random_Player())
     game.play_game()

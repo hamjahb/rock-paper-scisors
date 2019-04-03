@@ -25,10 +25,10 @@ class Random_Player(Player):
 class Human_Player(Player):
     def move(self):
         self.hand = input("What will you play? Rock, Paper or Scissors?\n").lower()
-        if self.hand == "rock" or self.hand == "paper" or self.hand == "scissors":
+        if self.hand in moves:
             return self.hand
         else:
-            print("Not a valid input")
+            print("Not a valid move")
             self.move()
             
 
@@ -43,36 +43,45 @@ class Game:
         move1 = self.p1.move()
         move2 = self.p2.move()
         print(f"Player 1: {move1}  Player 2: {move2}")
+        self.beats(move1, move2)
         self.p1.learn(move1, move2)
         self.p2.learn(move2, move1)
-        self.beats(move1, move2)
+        return (move1, move2)
         
 
     def play_game(self):
         print("Game start!")
         for round in range(3):
+            print(f"P1: {self.p1.score}, P2: {self.p2.score}")
             print(f"Round {round}:")
             self.play_round()
-            print(f"p1 {self.p1.score}, p2 {self.p2.score}")
+        print(f"Final score P1: {self.p1.score}, P2: {self.p2.score}")
         print("Game over!")
 
-    def beats(self, one, two):
-        one = self.p1.move()
-        two = self.p2.move()
-        if one == 'rock' and two == 'scissors':
-            self.p1.score += 1
-            print("Player 1 wins this round \n")
-        elif one == 'scissors' and two == 'paper':
-            self.p1.score += 1
-            print("Player 1 wins this round \n")
-        elif one == 'paper' and two == 'rock':
-            self.p1.score += 1
-            print("Player 1 wins this round\n")
-        elif one == two:
+    def beats(self, move1, move2):
+        if move1 == move2:
             print("This round is a tie no winner \n")
-        else:
-            self.p2.score += 1
-            print("Player 2 wins this Round \n")
+        elif move1 == 'rock':
+            if move2 == 'scissors':
+                self.p1.score += 1
+                print("Player 1 wins this round \n")
+            else:
+                self.p2.score += 1
+                print("Player 2 wins this round \n")
+        elif move1 == 'scissors':
+            if move2 == 'paper':
+                self.p1.score += 1
+                print("Player 1 wins this round \n")
+            else:
+                self.p2.score += 2
+                print("Player 2 wins this round \n")
+        elif move1 == 'paper':
+            if move2 == 'rock':
+                self.p1.score += 1
+                print("Player 1 wins this round\n")
+            else:
+                self.p2.score += 2
+                print("Player 2 wins this round \n")
 
 
 

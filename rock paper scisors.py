@@ -1,5 +1,5 @@
-#!/usr/bin/env python3
-# v 0.8
+import random
+# v 1.0
 """This program plays a game of Rock, Paper, Scissors between two Players,
 and reports both Player's scores each round."""
 
@@ -9,13 +9,11 @@ moves = ['rock', 'paper', 'scissors']
 in this game"""
 
 
-import random
-
 class Player:
     def __init__(self):
         self.my_previous_move = random.choice(moves)
         self.their_previous_move = random.choice(moves)
-    
+
     def move(self):
         return 'rock'
 
@@ -23,18 +21,22 @@ class Player:
         self.my_previous_move = my_move
         self.their_previous_move = their_move
 
+
 class Random_Player(Player):
     def move(self):
         return random.choice(moves)
 
+
 class Human_Player(Player):
     def move(self):
-        self.hand = input("What will you play? Rock, Paper or Scissors?\n").lower()
+        self.hand = input("What will you play?" +
+                          " Rock, Paper or Scissors?\n").lower()
         if self.hand in moves:
             return self.hand
         else:
             print("Not a valid move")
             self.move()
+
 
 class Reflect_Player(Player):
     def move(self):
@@ -42,15 +44,13 @@ class Reflect_Player(Player):
 
 
 class Cycle_Player(Player):
-    #player that cycles based on last play
     def move(self):
-        
         n = moves.index(self.my_previous_move)
         if n == 2:
             return moves[0]
         else:
             return moves[n+1]
-    
+
 
 class Game:
     def __init__(self, p1, p2):
@@ -66,7 +66,7 @@ class Game:
         self.beats(move1, move2)
         self.p1.learn(move1, move2)
         self.p2.learn(move2, move1)
-        
+
     def post_game(self):
         print(f"Final score P1: {self.p1.score}, P2: {self.p2.score}")
         if self.p1.score > self.p2.score:
@@ -83,7 +83,7 @@ class Game:
         if another == "play":
             self.play_game()
         elif another == "quit":
-            print("Game over!")        
+            print("Game over!")
         else:
             print("invalid command")
             self.play_again
@@ -123,8 +123,6 @@ class Game:
                 print("Player 2 wins this round \n")
 
 
-
-
 if __name__ == '__main__':
-    game = Game(Random_Player(), Random_Player())
+    game = Game(Human_Player(), Random_Player())
     game.play_game()
